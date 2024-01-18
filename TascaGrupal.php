@@ -91,11 +91,12 @@ class Project extends AbstractTask{
     }
 
     public function getDescription(){
+        parent::getDescription();
         echo "<li>budget: " . $this->getBudget();
         echo "</li>";
         if ($this->hasChildren()){
             foreach($this->Workitems as $Workitem){
-                    
+                    $Workitem->getDescription();
                 echo"</ul>";
             }
         }else{
@@ -134,7 +135,7 @@ class TimeBasedTask extends AbstractTask {
     }
 
 
-    function __construct($title, $date, $dueDate, $assignedTo, $description, $hoursEstimated, $hoursSpent, $childTask = null){
+    function __construct($title, $date, $dueDate, $assignedTo, $description, $hoursEstimated, $hoursSpent, $childTask){
         parent::setTitle($title);
         parent::setDate($date);
         parent::setDueDate($dueDate);
@@ -201,13 +202,16 @@ class FixedBudgetTask extends AbstractTask{
 $project = new Project();
 $project->setTitle("Proyecto Principal");
 
-$timeBasedTask = new TimeBasedTask("Tarea con Tiempo", "2024-01-11", "2024-01-18", "Usuario", "Descripción", 10, 5);
+$array = array(
+    "a",
+    "b");
+$timeBasedTask = new TimeBasedTask('Tarea con Tiempo', "2024-01-11", "2024-01-18", "Usuario", "Descripción", 10, 5, $array);
 $fixedBudgetTask = new FixedBudgetTask("Tarea con Presupuesto", 1000);
-$subTask = new TimeBasedTask("Subtarea", "2024-01-12", "2024-01-15", "Usuario", "Descripción Subtarea", 8, 3);
+$subTask = new TimeBasedTask("Subtarea", "2024-01-12", "2024-01-15", "Usuario", "Descripción Subtarea", 8, 3, $array);
 
-$timeBasedTask2 = new TimeBasedTask("Tarea con Tiempo2", "2024-01-11", "2024-01-18", "Usuario", "Descripción", 10, 5);
-$fixedBudgetTask2 = new FixedBudgetTask("Tarea con Presupuesto2", 1000);
-$subTask2 = new TimeBasedTask("Subtarea2", "2024-01-12", "2024-01-15", "Usuario", "Descripción Subtarea", 8, 3);
+$timeBasedTask2 = new TimeBasedTask("Tarea con Tiempo2", "2024-01-11", "2024-01-18", "Usuario", "Descripción", 11, 6, $array);
+$fixedBudgetTask2 = new FixedBudgetTask("Tarea con Presupuesto2", 2000);
+$subTask2 = new TimeBasedTask("Subtarea2", "2024-01-12", "2024-01-15", "Usuario", "Descripción Subtarea", 8, 3 , $array);
 
 $timeBasedTask->add($subTask);
 $project->add($timeBasedTask);
